@@ -1,73 +1,44 @@
-# FastAPI Workshop
+# FastAPI Team Project
 
-A tiny FastAPI application built for practicing open-source contributions.
-This project is designed for third-year CS students participating in
-contribution workshops and open-source programs.
+A collaborative FastAPI project developed by three computer science students.
 
-## Features
+This project is based on the
+[FastAPI Workshop](https://github.com/anxkhn/fastapi-workshop)
+and is being extended to practice collaborative software development,
+Git workflows, REST API development, testing, and code reviews.
+
+## Original Features
+
+The original project provides:
 
 - Health check endpoint
 - Arithmetic sum endpoint
-- User profile CRUD (in-memory store)
+- User profile CRUD with an in-memory store
 - Profile search with pagination
+- Automated tests
 
-## Quick Start
+## Our Extensions
 
-```bash
-# Clone the repository
-git clone https://github.com/anxkhn/fastapi-workshop.git
-cd fastapi-workshop
+The following features will be developed by our team:
 
-# Create a virtual environment and install dependencies
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
+- [ ] Persistent database
+- [ ] Profile update functionality
+- [ ] Improved search and filtering
+- [ ] Profile statistics
+- [ ] Improved error handling
+- [ ] Additional automated tests
 
-# Run the tests
-pytest tests/
+More features may be added during development.
 
-# Start the development server
-uvicorn app.main:app --reload
-```
+## Development Workflow
 
-## API Endpoints
+We use GitHub Issues to organize development.
 
-| Method | Path                  | Description              |
-|--------|-----------------------|--------------------------|
-| GET    | `/health`             | Health check             |
-| GET    | `/sum?a=1&b=2`        | Compute sum of two ints  |
-| GET    | `/profile`            | Create a new profile     |
-| GET    | `/profile/{username}` | Get a profile by name    |
-| DELETE | `/profile/{username}` | Delete a profile         |
-| GET    | `/search?q=term`      | Search profiles          |
+Each issue is implemented in its own branch:
 
-## Running Tests
-
-```bash
-pytest tests/ -v
-```
-
-## Project Structure
-
-```
-fastapi-workshop/
-  app/
-    __init__.py
-    main.py       # FastAPI application and route handlers
-    models.py     # Pydantic data models
-    store.py      # In-memory data store
-  tests/
-    conftest.py       # Shared test fixtures
-    test_health.py    # Health endpoint tests
-    test_sum.py       # Sum endpoint tests
-    test_profile.py   # Profile endpoint tests
-    test_search.py    # Search endpoint tests
-```
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for how to get started.
-
-## License
-
-MIT
+```text
+develop
+├── issue-1-database
+├── issue-2-update-profile
+├── issue-3-statistics
+└── ...
