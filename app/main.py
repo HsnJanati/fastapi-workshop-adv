@@ -37,6 +37,8 @@ def format_profile(data):
 @app.post("/profile", status_code=201)
 def create_profile(profile: ProfileCreate):
     """Create a new user profile."""
+    if profile.username in profile_store : 
+        raise HTTPException(status_code=409, detail="Profile is duplicated or username already exists")
     profile_store[profile.username] = {
         "username": profile.username,
         "bio": profile.bio,
