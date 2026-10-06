@@ -94,3 +94,21 @@ def update_profiles(username :str,profile : profileUpdate):
     
     return format_profile(profile_store[username])
 
+@app.get("/stats")
+def stats(): 
+    print(profile_store)
+    age_count = 0 
+    age = 0 
+    for i in profile_store.values() : 
+        if(i.get("age") is not None):
+            age_count += 1 
+            age += i["age"]
+    if age_count == 0:
+        agevg = 0 
+    else: 
+        agevg = age / age_count
+    return {
+            "total_profiles": len(profile_store),
+            "average_age": agevg
+
+        }
