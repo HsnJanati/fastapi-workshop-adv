@@ -3,7 +3,7 @@
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.models import ProfileCreate, ProfileResponse
+from app.models import ProfileCreate, ProfileResponse ,profileUpdate
 from app.store import profile_store
 
 
@@ -17,11 +17,10 @@ app.add_middleware(
 )
 
 
-@app.get("/health", status_code=201)
+@app.get("/health")
 def health_check():
     """Return the health status of the API."""
     return {"status": "ok"}
-
 
 @app.get("/sum")
 def compute_sum(a: int = Query(...), b: int = Query(...)):
@@ -34,7 +33,6 @@ def format_profile(data):
         "bio": data["bio"],
         "age": data.get("age"),
     }
-
 
 @app.post("/profile", status_code=201)
 def create_profile(profile: ProfileCreate):
@@ -80,3 +78,19 @@ def search_profiles(
         if q.lower() in p["username"].lower() or q.lower() in p["bio"].lower()
     ]
     return {"results": results[offset : offset + limit - 1], "total": len(results)}
+
+@app.put("/update/{username}")
+def update_profiles(username :str,profile : profileUpdate):
+    """Modify or update the profile """
+    if username not in profile_store:
+            raise HTTPException(status_code=404, detail="User not found")
+     
+    if profile.bio is not None:
+        profile_store[username]["bio"] = profile.bio
+    
+
+    if profile.age is not None:
+        profile_store[username]["age"] = profile.age
+    
+    return format_profile(profile_store[username])
+
