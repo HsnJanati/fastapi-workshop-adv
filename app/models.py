@@ -18,3 +18,9 @@ class ProfileResponse(BaseModel):
     username: str
     bio: str
     age: Optional[int] = None
+
+
+class profileUpdate(BaseModel) : 
+    """Schema for profile update """
+    bio: Optional[str] = None 
+    age: Optional[int] = None
