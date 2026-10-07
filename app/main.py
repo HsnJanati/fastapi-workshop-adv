@@ -1,5 +1,5 @@
 """Workshop API - a tiny FastAPI application for open-source contribution practice."""
-
+from typing import Optional
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -74,17 +74,22 @@ def search_profiles(
     q: str = Query(default=""),
     offset: int = Query(default=0, ge=0),
     limit: int = Query(default=10, ge=1),
+    min_age: Optional[int] = Query(default=None, ge=0),
+    max_age: Optional[int] = Query(default=None, ge=0),
 ):
     """Search profiles by username or bio."""
-    if not q:
-        return {"results": [], "total": 0}
 
     results = [
         p
         for p in profile_store.values()
-        if q.lower() in p["username"].lower() or q.lower() in p["bio"].lower()
+        if (q.lower() in p["username"].lower() or q.lower() in p["bio"].lower()) and 
+        min_age is None or (
+            p.get("age") is not None
+            and p.get("age") >= min_age
+            and p.get("age") <= max_age
+        )
     ]
-    return {"results": results[offset : offset + limit - 1], "total": len(results)}
+    return {"results": results[offset : offset + limit], "total": len(results)}
 
 @app.put("/update/{username}")
 def update_profiles(username :str,profile : profileUpdate):
