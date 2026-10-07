@@ -13,7 +13,22 @@ def test_create_profile(clean_store):
         json={"username": "alice", "bio": "Backend developer", "age": 22},
     )
     assert response.status_code == 201
-    assert response.json()["name"] == "alice"
+    assert response.json()["username"] == "alice"
+def test_create_duplicate_profiles(clean_store):
+    response = client.post(
+        "/profile",
+        json={"username": "alice", "bio": "Backend developer", "age": 22},
+    )
+    response = client.post(
+            "/profile",
+            json={"username": "alice", "bio": "Stack developer", "age": 24},
+    )
+    assert response.status_code == 409
+    existing_profile = client.get("/profile/alice")
+    assert existing_profile.json()["username"] == "alice"
+    assert existing_profile.json()["bio"] == "Backend developer"
+    assert existing_profile.json()["age"] == 22
+
 
 
 def test_get_profile(clean_store):
