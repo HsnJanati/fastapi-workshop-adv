@@ -46,6 +46,11 @@ def create_profile(profile: ProfileCreate):
     }
     return format_profile(profile_store[profile.username])
 
+@app.get("/profiles", status_code=200)
+def get_all_profiles(): 
+    return list(profile_store.values())
+
+
 
 @app.get("/profile/{username}")
 def get_profile(username: str):
